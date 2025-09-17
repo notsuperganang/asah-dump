@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ganang - Portfolio Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="nav-container">
+            <div class="logo">Ganang</div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container">
+                <h1>Hi, Saya Ganang</h1>
+                <p>Full Stack Developer | Machine Learning Engineer | Tech Enthusiast</p>
+                <a href="#about" class="cta-button">Jelajahi Portfolio</a>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="main-content">
+                    <article id="about">
+                        <h2>Tentang Saya</h2>
+                        <p>
+                            Selamat datang di portfolio saya! Saya seorang <strong>Full Stack Developer</strong>
+                            sekaligus
+                            <strong>Machine Learning Engineer</strong> dengan pengalaman hampir 2 tahun di dunia
+                            profesional.
+                            Saat ini, saya menjalani peran sebagai <em>Full Stack Developer Intern</em> di Telkom
+                            Indonesia.
+                        </p>
+
+                        <p>
+                            Keahlian utama saya meliputi pengembangan frontend dan backend dengan
+                            <strong>Next.js</strong>,
+                            <strong>Node.js</strong>, dan <strong>Laravel</strong>, serta pengembangan machine learning
+                            menggunakan <strong>Python</strong>, <strong>TensorFlow</strong>, dan
+                            <strong>PyTorch</strong>.
+                            Saya juga memiliki pengalaman dalam perancangan database, implementasi API, optimasi
+                            performa aplikasi, hingga pengembangan Machine Learning
+                        </p>
+
+                        <h3>Filosofi Kerja</h3>
+                        <p>
+                            Saya percaya bahwa kode yang baik bukan hanya tentang fungsionalitas, tetapi juga tentang
+                            <em>clean code</em>, maintainability, dan user experience. Setiap project yang saya kerjakan
+                            selalu
+                            mengutamakan kualitas dan kepuasan user sebagai prioritas utama.
+                        </p>
+                    </article>
+
+                    <article id="skills">
+                        <h2>Keahlian & Teknologi</h2>
+                        <div class="skills-grid" id="skillsGrid">
+                            <!-- Skills akan di-generate dengan JavaScript -->
+                        </div>
+                    </article>
+
+                    <article id="projects">
+                        <h2>Portfolio Projects</h2>
+                        <div class="project-slider">
+                            <div class="project-slides" id="projectSlides">
+                                <!-- Project slides akan di-generate dengan JavaScript -->
+                            </div>
+                        </div>
+                        <div class="slider-controls">
+                            <button class="slider-btn" onclick="previousSlide()">❮ Previous</button>
+                            <button class="slider-btn" onclick="nextSlide()">Next ❯</button>
+                        </div>
+                    </article>
+                </div>
+
+                <aside>
+                    <div class="profile-section">
+                        <img src="asset/profile-ganang.png" alt="Profile Ganang" class="profile-image">
+                        <h3>Ganang Setyo Hadi</h3>
+                        <p>Full Stack Developer and Machine Learning Engineer</p>
+                    </div>
+
+                    <div class="dropdown-menu">
+                        <button class="dropdown-btn" onclick="toggleDropdown()">
+                            Menu Navigasi ▼
+                        </button>
+                        <div class="dropdown-content" id="dropdownContent">
+                            <div class="dropdown-item" onclick="scrollToSection('home')">🏠 Home</div>
+                            <div class="dropdown-item" onclick="scrollToSection('about')">👤 About</div>
+                            <div class="dropdown-item" onclick="scrollToSection('skills')">⚡ Skills</div>
+                            <div class="dropdown-item" onclick="scrollToSection('projects')">💼 Projects</div>
+                            <div class="dropdown-item" onclick="scrollToSection('contact')">📧 Contact</div>
+                        </div>
+                    </div>
+
+                    <div class="contact-info" id="contact">
+                        <h4>Informasi Kontak</h4>
+                        <div class="contact-item">
+                            <strong>📧 Email:</strong> <a href="mailto:ganangsetyohadi@gmail.com" style="color: #123458; text-decoration: none;">ganangsetyohadi@gmail.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <strong>📱 Phone:</strong> <a href="tel:+6285338573726" style="color: #123458; text-decoration: none;">+62 85338573726</a>
+                        </div>
+                        <div class="contact-item">
+                            <strong>📍 Location:</strong> Banda Aceh, Indonesia
+                        </div>
+                        <div class="contact-item">
+                            <strong>💼 LinkedIn:</strong> <a href="https://www.linkedin.com/in/ganang-setyo-hadi/" target="_blank" style="color: #123458; text-decoration: none;">ganang-setyo-hadi</a>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <h4>Status Ketersediaan</h4>
+                        <div id="availability" class="contact-item"
+                            style="background: #D4C9BE; color: #123458; font-weight: 600;">
+                            🟡 Sedang Fokus pada Project
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3>Ganang Setyo Hadi</h3>
+                    <p>Transforming Ideas into Digital Reality</p>
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/notsuperganang" target="_blank">GitHub</a>
+                    <a href="https://www.linkedin.com/in/ganang-setyo-hadi/" target="_blank">LinkedIn</a>
+                    <a href="https://www.linkedin.com/in/ganang-setyo-hadi/" target="_blank">Instagram</a>
+                </div>
+            </div>
+            <hr style="margin: 2rem 0; border: 1px solid #D4C9BE;">
+            <p>&copy; 2025 Ganang Setyo Hadi. All rights reserved. Made with ❤️</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
