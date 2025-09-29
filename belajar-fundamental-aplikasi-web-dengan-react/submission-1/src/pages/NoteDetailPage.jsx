@@ -38,8 +38,12 @@ const NoteDetailPage = () => {
 
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this note? This action cannot be undone.')) {
-      deleteNote(note.id);
-      navigate('/');
+      try {
+        deleteNote(note.id);
+        navigate('/', { replace: true });
+      } catch (error) {
+        console.error('Error deleting note:', error);
+      }
     }
   };
 
