@@ -18,7 +18,8 @@ const SearchBar = ({ onSearch }) => {
   }, [keyword, onSearch, searchParams, setSearchParams]);
 
   const handleInputChange = (e) => {
-    setKeyword(e.target.value);
+    const value = e.target.value;
+    setKeyword(value);
   };
 
   const clearSearch = () => {

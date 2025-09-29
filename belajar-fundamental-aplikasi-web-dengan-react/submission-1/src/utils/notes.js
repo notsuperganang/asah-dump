@@ -10,6 +10,7 @@ export const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('id-ID', options);
 };
 
+// Search notes by title with case-insensitive matching
 export const searchNotes = (notes, keyword) => {
   return notes.filter((note) =>
     note.title.toLowerCase().includes(keyword.toLowerCase())
