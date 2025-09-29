@@ -4,7 +4,7 @@ import PixelBlast from './PixelBlast';
 const Layout = ({ children }) => {
   return (
     <div className="min-h-screen relative" style={{ margin: 0, padding: 0 }}>
-      {/* PixelBlast background effect */}
+      {/* PixelBlast background effect - Interactive purple particle system */}
       <div
         className="fixed z-0"
         style={{

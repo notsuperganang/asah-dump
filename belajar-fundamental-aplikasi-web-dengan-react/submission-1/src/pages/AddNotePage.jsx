@@ -153,7 +153,7 @@ const AddNotePage = () => {
                 />
 
                 <div className="mt-2 text-xs text-gray-500">
-                  Tip: Use <kbd className="px-1 py-0.5 bg-gray-700 rounded text-xs">Ctrl+S</kbd> to save quickly
+                  Tip: Use <kbd className="px-1 py-0.5 bg-gray-700 rounded text-xs">Ctrl+S</kbd> to save quickly, or format text with the toolbar above
                 </div>
               </div>
             </div>
