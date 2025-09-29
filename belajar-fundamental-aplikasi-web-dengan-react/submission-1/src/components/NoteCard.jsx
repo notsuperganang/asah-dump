@@ -12,7 +12,8 @@ const NoteCard = ({ note, onArchive, onDelete, showArchiveButton = true }) => {
   const handleDelete = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (window.confirm('Are you sure you want to delete this note?')) {
+    const confirmMessage = `Are you sure you want to delete "${note.title || 'this note'}"? This action cannot be undone.`;
+    if (window.confirm(confirmMessage)) {
       onDelete(note.id);
     }
   };
