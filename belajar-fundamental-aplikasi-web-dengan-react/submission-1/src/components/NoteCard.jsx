@@ -18,12 +18,6 @@ const NoteCard = ({ note, onArchive, onDelete, showArchiveButton = true }) => {
     }
   };
 
-  const stripHtmlTags = (html) => {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || '';
-  };
-
   const truncateText = (text, maxLength = 120) => {
     if (text.length <= maxLength) return text;
     return text.slice(0, maxLength) + '...';
@@ -64,7 +58,7 @@ const NoteCard = ({ note, onArchive, onDelete, showArchiveButton = true }) => {
 
           <div className="flex-1">
             <div className="text-gray-300 text-sm leading-relaxed">
-              {truncateText(stripHtmlTags(note.body))}
+              {truncateText(note.body || '')}
             </div>
           </div>
         </div>

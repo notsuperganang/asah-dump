@@ -1,6 +1,5 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Archive, ArchiveRestore, Trash2, Clock, Edit } from 'lucide-react';
-import parse from 'html-react-parser';
 import { useNotes } from '../utils/hooks';
 import { getNoteById, formatDate } from '../utils/notes';
 import Layout from '../components/Layout';
@@ -113,7 +112,7 @@ const NoteDetailPage = () => {
 
           <div className="prose prose-invert prose-lg max-w-none">
             <div className="text-gray-300 leading-relaxed whitespace-pre-wrap">
-              {note.body ? parse(note.body) : (
+              {note.body ? note.body : (
                 <p className="text-gray-500 italic">No content available.</p>
               )}
             </div>

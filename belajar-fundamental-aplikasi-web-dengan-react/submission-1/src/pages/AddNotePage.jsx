@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Save, Type, Bold, Italic } from 'lucide-react';
+import { ArrowLeft, Save } from 'lucide-react';
 import { useNotes } from '../utils/hooks';
 import Layout from '../components/Layout';
 
@@ -16,8 +16,8 @@ const AddNotePage = () => {
     setTitle(e.target.value);
   };
 
-  const handleBodyInput = (e) => {
-    setBody(e.target.innerHTML);
+  const handleBodyChange = (e) => {
+    setBody(e.target.value);
   };
 
   const handleSave = async () => {
@@ -51,10 +51,6 @@ const AddNotePage = () => {
     }
   };
 
-  const formatText = (command) => {
-    document.execCommand(command, false, null);
-    bodyRef.current?.focus();
-  };
 
   const handleBack = () => {
     if (title.trim() || body.trim()) {
@@ -110,35 +106,18 @@ const AddNotePage = () => {
               </div>
 
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label htmlFor="body" className="block text-sm font-medium text-gray-300">
-                    Content
-                  </label>
+                <label htmlFor="body" className="block text-sm font-medium text-gray-300 mb-2">
+                  Content
+                </label>
 
-                  <div className="flex items-center space-x-2">
-                    <button
-                      type="button"
-                      onClick={() => formatText('bold')}
-                      className="p-2 rounded btn-glass hover:bg-white/10 transition-all duration-300"
-                      title="Bold (Ctrl+B)"
-                    >
-                      <Bold size={16} />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => formatText('italic')}
-                      className="p-2 rounded btn-glass hover:bg-white/10 transition-all duration-300"
-                      title="Italic (Ctrl+I)"
-                    >
-                      <Italic size={16} />
-                    </button>
-                  </div>
-                </div>
-
-                <div
+                <textarea
+                  id="body"
                   ref={bodyRef}
-                  contentEditable
-                  className="min-h-[300px] p-4 rounded-lg border transition-all duration-300 bg-transparent focus:outline-none focus:border-blue-500 focus:bg-black/10"
+                  value={body}
+                  onChange={handleBodyChange}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Start writing your note here..."
+                  className="min-h-[300px] p-4 rounded-lg border transition-all duration-300 bg-transparent focus:outline-none focus:border-blue-500 focus:bg-black/10 resize-y"
                   style={{
                     background: 'var(--bg-glass)',
                     backdropFilter: 'blur(20px)',
@@ -146,14 +125,10 @@ const AddNotePage = () => {
                     borderColor: 'var(--border-glass)',
                     color: 'var(--text-primary)'
                   }}
-                  data-placeholder="Start writing your note here... You can use formatting like bold and italic text."
-                  onInput={handleBodyInput}
-                  onKeyDown={handleKeyDown}
-                  suppressContentEditableWarning={true}
                 />
 
                 <div className="mt-2 text-xs text-gray-500">
-                  Tip: Use <kbd className="px-1 py-0.5 bg-gray-700 rounded text-xs">Ctrl+S</kbd> to save quickly, or format text with the toolbar above
+                  Tip: Use <kbd className="px-1 py-0.5 bg-gray-700 rounded text-xs">Ctrl+S</kbd> to save quickly
                 </div>
               </div>
             </div>

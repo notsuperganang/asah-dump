@@ -15,7 +15,6 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "gsap": "^3.13.0",
-    "html-react-parser": "^5.2.6",
     "lucide-react": "^0.544.0",
     "postprocessing": "^6.37.8",
     "react": "^19.1.1",
