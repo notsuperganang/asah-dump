@@ -24,12 +24,14 @@ const NoteCard = ({ note, onArchive, onDelete, showArchiveButton = true }) => {
   };
 
   return (
-    <div className="card-glass glass-hover group fade-in min-h-[200px]">
+    <div className="card-glass glass-hover group fade-in min-h-[200px] w-full overflow-hidden">
       <Link to={`/notes/${note.id}`} className="block h-full">
-        <div className="flex flex-col h-full p-1">
+        <div className="flex flex-col h-full p-6">
           <div className="flex justify-between items-start mb-4">
-            <h3 className="text-xl font-semibold text-white group-hover:text-blue-300 transition-colors line-clamp-2 flex-1 mr-4">
-              {note.title || 'Untitled'}
+            <h3 className="text-xl font-semibold text-white group-hover:text-blue-300 transition-colors flex-1 mr-4 break-words overflow-hidden">
+              <span className="line-clamp-2">
+                {note.title || 'Untitled'}
+              </span>
             </h3>
             <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
               {showArchiveButton && (
@@ -52,12 +54,12 @@ const NoteCard = ({ note, onArchive, onDelete, showArchiveButton = true }) => {
           </div>
 
           <div className="flex items-center text-sm text-gray-400 mb-5">
-            <Clock size={14} className="mr-2" />
-            <span>{formatDate(note.createdAt)}</span>
+            <Clock size={14} className="mr-2 flex-shrink-0" />
+            <span className="truncate">{formatDate(note.createdAt)}</span>
           </div>
 
-          <div className="flex-1">
-            <div className="text-gray-300 text-sm leading-relaxed">
+          <div className="flex-1 overflow-hidden">
+            <div className="text-gray-300 text-sm leading-relaxed break-words">
               {truncateText(note.body || '')}
             </div>
           </div>
