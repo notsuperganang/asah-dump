@@ -117,13 +117,14 @@ const AddNotePage = () => {
                   onChange={handleBodyChange}
                   onKeyDown={handleKeyDown}
                   placeholder="Start writing your note here..."
-                  className="min-h-[300px] p-4 rounded-lg border transition-all duration-300 bg-transparent focus:outline-none focus:border-blue-500 focus:bg-black/10 resize-y"
+                  className="w-full min-h-[400px] p-4 rounded-lg border transition-all duration-300 bg-transparent focus:outline-none focus:border-blue-500 focus:bg-black/10 resize-y text-base"
                   style={{
                     background: 'var(--bg-glass)',
                     backdropFilter: 'blur(20px)',
                     WebkitBackdropFilter: 'blur(20px)',
                     borderColor: 'var(--border-glass)',
-                    color: 'var(--text-primary)'
+                    color: 'var(--text-primary)',
+                    fontFamily: 'inherit'
                   }}
                 />
 
