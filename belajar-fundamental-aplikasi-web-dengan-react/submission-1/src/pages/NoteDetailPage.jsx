@@ -65,8 +65,8 @@ const NoteDetailPage = () => {
 
         <div className="card-glass">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-8">
-            <div className="flex-1">
-              <h1 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-3xl lg:text-4xl font-bold text-white mb-4 break-words">
                 {note.title || 'Untitled'}
               </h1>
 
@@ -110,8 +110,8 @@ const NoteDetailPage = () => {
             </div>
           </div>
 
-          <div className="prose prose-invert prose-lg max-w-none">
-            <div className="text-gray-300 leading-relaxed whitespace-pre-wrap">
+          <div className="prose prose-invert prose-lg max-w-none overflow-hidden">
+            <div className="text-gray-300 leading-relaxed whitespace-pre-wrap break-words overflow-wrap-anywhere">
               {note.body ? note.body : (
                 <p className="text-gray-500 italic">No content available.</p>
               )}
