@@ -3,18 +3,18 @@ import { Archive, ArchiveRestore, Trash2, Clock } from "lucide-react";
 import { formatDate } from "../utils/notes";
 
 const NoteCard = ({ note, onArchive, onDelete, showArchiveButton = true }) => {
-  const handleArchive = (e) => {
+  const handleArchive = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    onArchive(note.id);
+    await onArchive(note.id);
   };
 
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     const confirmMessage = `Are you sure you want to delete "${note.title || "this note"}"? This action cannot be undone.`;
     if (window.confirm(confirmMessage)) {
-      onDelete(note.id);
+      await onDelete(note.id);
     }
   };
 

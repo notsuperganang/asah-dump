@@ -6,9 +6,10 @@ import Layout from "../components/Layout";
 import SearchBar from "../components/SearchBar";
 import NoteCard from "../components/NoteCard";
 import EmptyState from "../components/EmptyState";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const NotesPage = () => {
-  const { notes, deleteNote, toggleArchive } = useNotes();
+  const { notes, deleteNote, toggleArchive, isLoading } = useNotes();
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
 
@@ -24,12 +25,12 @@ const NotesPage = () => {
     return searchNotes(activeNotes, keyword);
   }, [notes, keyword]);
 
-  const handleArchive = (id) => {
-    toggleArchive(id);
+  const handleArchive = async (id) => {
+    await toggleArchive(id);
   };
 
-  const handleDelete = (id) => {
-    deleteNote(id);
+  const handleDelete = async (id) => {
+    await deleteNote(id);
   };
 
   return (
@@ -60,7 +61,9 @@ const NotesPage = () => {
           </div>
         )}
 
-        {displayedNotes.length > 0 ? (
+        {isLoading ? (
+          <LoadingSpinner text="Loading notes..." />
+        ) : displayedNotes.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
             {displayedNotes.map((note) => (
               <NoteCard

@@ -34,12 +34,18 @@ const AddNotePage = () => {
         body: body.trim()
       };
 
-      addNote(noteData);
+      const { error } = await addNote(noteData);
+
+      if (error) {
+        alert("Failed to save note. Please try again.");
+        setIsSaving(false);
+        return;
+      }
+
       navigate("/");
     } catch (error) {
       console.error("Error saving note:", error);
       alert("Failed to save note. Please try again.");
-    } finally {
       setIsSaving(false);
     }
   };

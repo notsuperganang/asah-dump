@@ -6,10 +6,11 @@ import Layout from "../components/Layout";
 import SearchBar from "../components/SearchBar";
 import NoteCard from "../components/NoteCard";
 import EmptyState from "../components/EmptyState";
+import LoadingSpinner from "../components/LoadingSpinner";
 import { Archive } from "lucide-react";
 
 const ArchivePage = () => {
-  const { notes, deleteNote, toggleArchive } = useNotes();
+  const { notes, deleteNote, toggleArchive, isLoading } = useNotes();
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
 
@@ -25,12 +26,12 @@ const ArchivePage = () => {
     return searchNotes(archivedNotes, keyword);
   }, [notes, keyword]);
 
-  const handleRestore = (id) => {
-    toggleArchive(id);
+  const handleRestore = async (id) => {
+    await toggleArchive(id);
   };
 
-  const handleDelete = (id) => {
-    deleteNote(id);
+  const handleDelete = async (id) => {
+    await deleteNote(id);
   };
 
   return (
@@ -64,7 +65,9 @@ const ArchivePage = () => {
           </div>
         )}
 
-        {displayedNotes.length > 0 ? (
+        {isLoading ? (
+          <LoadingSpinner text="Loading archived notes..." />
+        ) : displayedNotes.length > 0 ? (
           <div>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-white">

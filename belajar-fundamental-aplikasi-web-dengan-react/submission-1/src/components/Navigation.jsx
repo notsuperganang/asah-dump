@@ -1,13 +1,21 @@
-import { Link, useLocation } from "react-router-dom";
-import { Home, Archive, Plus, Search } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Home, Archive, Plus, LogOut, User } from "lucide-react";
+import { useAuth } from "../hooks/useAuth";
 
 const Navigation = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { authedUser, onLogout } = useAuth();
 
   const isActive = (path) => {
     if (path === "/" && location.pathname === "/") return true;
     if (path !== "/" && location.pathname.startsWith(path)) return true;
     return false;
+  };
+
+  const handleLogout = () => {
+    onLogout();
+    navigate("/login");
   };
 
   return (
@@ -50,6 +58,22 @@ const Navigation = () => {
               <Plus size={18} />
               <span>Add Note</span>
             </Link>
+
+            {authedUser && (
+              <>
+                <div className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10">
+                  <User size={16} className="text-gray-400" />
+                  <span className="text-gray-300 text-sm">{authedUser.name}</span>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-all duration-300"
+                >
+                  <LogOut size={18} />
+                  <span>Logout</span>
+                </button>
+              </>
+            )}
           </div>
 
           {/* Mobile menu */}
@@ -82,6 +106,15 @@ const Navigation = () => {
             >
               <Plus size={20} />
             </Link>
+
+            {authedUser && (
+              <button
+                onClick={handleLogout}
+                className="p-2 rounded-lg hover:bg-red-500/20 text-red-400 transition-all duration-300"
+              >
+                <LogOut size={20} />
+              </button>
+            )}
           </div>
         </div>
       </div>

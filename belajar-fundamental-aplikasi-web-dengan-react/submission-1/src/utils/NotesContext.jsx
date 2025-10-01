@@ -1,53 +1,104 @@
-import { useReducer } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { NotesContext } from "./context.js";
-import getInitialData from "./initialData";
-import { addNote, deleteNote, archiveNote } from "./notes";
-
-const notesReducer = (state, action) => {
-  switch (action.type) {
-    case "ADD_NOTE":
-      return {
-        ...state,
-        notes: [addNote(action.payload), ...state.notes],
-      };
-    case "DELETE_NOTE":
-      return {
-        ...state,
-        notes: deleteNote(state.notes, action.payload),
-      };
-    case "ARCHIVE_NOTE":
-      return {
-        ...state,
-        notes: archiveNote(state.notes, action.payload),
-      };
-    default:
-      return state;
-  }
-};
+import {
+  getActiveNotes as fetchActiveNotes,
+  getArchivedNotes as fetchArchivedNotes,
+  addNote as createNote,
+  deleteNote as removeNote,
+  archiveNote as setArchiveNote,
+  unarchiveNote as setUnarchiveNote,
+} from "./network-data";
 
 export const NotesProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(notesReducer, {
-    notes: getInitialData(),
-  });
+  const [notes, setNotes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const addNewNote = (noteData) => {
-    dispatch({ type: "ADD_NOTE", payload: noteData });
+  const fetchNotes = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const [activeResult, archivedResult] = await Promise.all([
+        fetchActiveNotes(),
+        fetchArchivedNotes(),
+      ]);
+
+      if (activeResult.error || archivedResult.error) {
+        setError("Failed to fetch notes");
+        setNotes([]);
+        return;
+      }
+
+      const allNotes = [...activeResult.data, ...archivedResult.data];
+      setNotes(allNotes);
+    } catch (err) {
+      setError("Failed to fetch notes");
+      setNotes([]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const removeNote = (id) => {
-    dispatch({ type: "DELETE_NOTE", payload: id });
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  const addNote = async (noteData) => {
+    const { error, data } = await createNote(noteData);
+
+    if (error) {
+      return { error: true };
+    }
+
+    setNotes((prevNotes) => [data, ...prevNotes]);
+    return { error: false };
   };
 
-  const toggleArchiveNote = (id) => {
-    dispatch({ type: "ARCHIVE_NOTE", payload: id });
+  const deleteNote = async (id) => {
+    const { error } = await removeNote(id);
+
+    if (error) {
+      return { error: true };
+    }
+
+    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+    return { error: false };
   };
 
-  const value = {
-    notes: state.notes,
-    addNote: addNewNote,
-    deleteNote: removeNote,
-    toggleArchive: toggleArchiveNote,
+  const toggleArchive = async (id) => {
+    const note = notes.find((n) => n.id === id);
+
+    if (!note) {
+      return { error: true };
+    }
+
+    const { error } = note.archived
+      ? await setUnarchiveNote(id)
+      : await setArchiveNote(id);
+
+    if (error) {
+      return { error: true };
+    }
+
+    setNotes((prevNotes) =>
+      prevNotes.map((n) =>
+        n.id === id ? { ...n, archived: !n.archived } : n
+      )
+    );
+
+    return { error: false };
   };
+
+  const value = useMemo(() => ({
+    notes,
+    isLoading,
+    error,
+    addNote,
+    deleteNote,
+    toggleArchive,
+    refetchNotes: fetchNotes,
+  }), [notes, isLoading, error]);
 
   return (
     <NotesContext.Provider value={value}>
