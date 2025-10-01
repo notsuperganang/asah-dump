@@ -1,12 +1,12 @@
-import { Link, useLocation } from 'react-router-dom';
-import { Home, Archive, Plus, Search } from 'lucide-react';
+import { Link, useLocation } from "react-router-dom";
+import { Home, Archive, Plus, Search } from "lucide-react";
 
 const Navigation = () => {
   const location = useLocation();
 
   const isActive = (path) => {
-    if (path === '/' && location.pathname === '/') return true;
-    if (path !== '/' && location.pathname.startsWith(path)) return true;
+    if (path === "/" && location.pathname === "/") return true;
+    if (path !== "/" && location.pathname.startsWith(path)) return true;
     return false;
   };
 
@@ -22,9 +22,9 @@ const Navigation = () => {
             <Link
               to="/"
               className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-                isActive('/') && location.pathname === '/'
-                  ? 'bg-blue-500/20 border border-blue-500/30 text-blue-300'
-                  : 'hover:bg-white/10 text-gray-300 hover:text-white'
+                isActive("/") && location.pathname === "/"
+                  ? "bg-blue-500/20 border border-blue-500/30 text-blue-300"
+                  : "hover:bg-white/10 text-gray-300 hover:text-white"
               }`}
             >
               <Home size={18} />
@@ -34,9 +34,9 @@ const Navigation = () => {
             <Link
               to="/archive"
               className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-                isActive('/archive')
-                  ? 'bg-blue-500/20 border border-blue-500/30 text-blue-300'
-                  : 'hover:bg-white/10 text-gray-300 hover:text-white'
+                isActive("/archive")
+                  ? "bg-blue-500/20 border border-blue-500/30 text-blue-300"
+                  : "hover:bg-white/10 text-gray-300 hover:text-white"
               }`}
             >
               <Archive size={18} />
@@ -57,9 +57,9 @@ const Navigation = () => {
             <Link
               to="/"
               className={`p-2 rounded-lg transition-all duration-300 ${
-                isActive('/') && location.pathname === '/'
-                  ? 'bg-blue-500/20 border border-blue-500/30 text-blue-300'
-                  : 'hover:bg-white/10 text-gray-300 hover:text-white'
+                isActive("/") && location.pathname === "/"
+                  ? "bg-blue-500/20 border border-blue-500/30 text-blue-300"
+                  : "hover:bg-white/10 text-gray-300 hover:text-white"
               }`}
             >
               <Home size={20} />
@@ -68,9 +68,9 @@ const Navigation = () => {
             <Link
               to="/archive"
               className={`p-2 rounded-lg transition-all duration-300 ${
-                isActive('/archive')
-                  ? 'bg-blue-500/20 border border-blue-500/30 text-blue-300'
-                  : 'hover:bg-white/10 text-gray-300 hover:text-white'
+                isActive("/archive")
+                  ? "bg-blue-500/20 border border-blue-500/30 text-blue-300"
+                  : "hover:bg-white/10 text-gray-300 hover:text-white"
               }`}
             >
               <Archive size={20} />

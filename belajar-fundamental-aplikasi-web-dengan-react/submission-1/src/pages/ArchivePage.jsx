@@ -1,17 +1,17 @@
-import { useCallback, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useNotes } from '../utils/hooks';
-import { getArchivedNotes, searchNotes } from '../utils/notes';
-import Layout from '../components/Layout';
-import SearchBar from '../components/SearchBar';
-import NoteCard from '../components/NoteCard';
-import EmptyState from '../components/EmptyState';
-import { Archive } from 'lucide-react';
+import { useCallback, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useNotes } from "../utils/hooks";
+import { getArchivedNotes, searchNotes } from "../utils/notes";
+import Layout from "../components/Layout";
+import SearchBar from "../components/SearchBar";
+import NoteCard from "../components/NoteCard";
+import EmptyState from "../components/EmptyState";
+import { Archive } from "lucide-react";
 
 const ArchivePage = () => {
   const { notes, deleteNote, toggleArchive } = useNotes();
   const [searchParams] = useSearchParams();
-  const keyword = searchParams.get('keyword') || '';
+  const keyword = searchParams.get("keyword") || "";
 
   const handleSearch = useCallback(() => {
     // The search is handled via URL params in SearchBar component
@@ -57,7 +57,7 @@ const ArchivePage = () => {
           <div className="text-center">
             <p className="text-gray-400">
               {displayedNotes.length > 0
-                ? `Found ${displayedNotes.length} archived note${displayedNotes.length === 1 ? '' : 's'} matching "${keyword}"`
+                ? `Found ${displayedNotes.length} archived note${displayedNotes.length === 1 ? "" : "s"} matching "${keyword}"`
                 : `No archived notes found matching "${keyword}"`
               }
             </p>
@@ -68,7 +68,7 @@ const ArchivePage = () => {
           <div>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-white">
-                {displayedNotes.length} Archived Note{displayedNotes.length === 1 ? '' : 's'}
+                {displayedNotes.length} Archived Note{displayedNotes.length === 1 ? "" : "s"}
               </h2>
 
               <div className="text-sm text-gray-400">

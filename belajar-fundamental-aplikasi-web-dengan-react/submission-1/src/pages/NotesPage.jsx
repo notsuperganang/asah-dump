@@ -1,16 +1,16 @@
-import { useCallback, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useNotes } from '../utils/hooks';
-import { getActiveNotes, searchNotes } from '../utils/notes';
-import Layout from '../components/Layout';
-import SearchBar from '../components/SearchBar';
-import NoteCard from '../components/NoteCard';
-import EmptyState from '../components/EmptyState';
+import { useCallback, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useNotes } from "../utils/hooks";
+import { getActiveNotes, searchNotes } from "../utils/notes";
+import Layout from "../components/Layout";
+import SearchBar from "../components/SearchBar";
+import NoteCard from "../components/NoteCard";
+import EmptyState from "../components/EmptyState";
 
 const NotesPage = () => {
   const { notes, deleteNote, toggleArchive } = useNotes();
   const [searchParams] = useSearchParams();
-  const keyword = searchParams.get('keyword') || '';
+  const keyword = searchParams.get("keyword") || "";
 
   const handleSearch = useCallback(() => {
     // The search is handled via URL params in SearchBar component
@@ -53,7 +53,7 @@ const NotesPage = () => {
           <div className="text-center">
             <p className="text-gray-400">
               {displayedNotes.length > 0
-                ? `Found ${displayedNotes.length} note${displayedNotes.length === 1 ? '' : 's'} matching "${keyword}"`
+                ? `Found ${displayedNotes.length} note${displayedNotes.length === 1 ? "" : "s"} matching "${keyword}"`
                 : `No notes found matching "${keyword}"`
               }
             </p>

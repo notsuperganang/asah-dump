@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Search, X } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Search, X } from "lucide-react";
 
 const SearchBar = ({ onSearch }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [keyword, setKeyword] = useState(searchParams.get('keyword') || '');
+  const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
     if (keyword) {
-      params.set('keyword', keyword);
+      params.set("keyword", keyword);
     } else {
-      params.delete('keyword');
+      params.delete("keyword");
     }
     setSearchParams(params);
     onSearch(keyword);
@@ -23,7 +23,7 @@ const SearchBar = ({ onSearch }) => {
   };
 
   const clearSearch = () => {
-    setKeyword('');
+    setKeyword("");
   };
 
   return (

@@ -1,10 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { NotesProvider } from './utils/NotesContext.jsx';
-import NotesPage from './pages/NotesPage';
-import NoteDetailPage from './pages/NoteDetailPage';
-import AddNotePage from './pages/AddNotePage';
-import ArchivePage from './pages/ArchivePage';
-import NotFoundPage from './pages/NotFoundPage';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { NotesProvider } from "./utils/NotesContext.jsx";
+import NotesPage from "./pages/NotesPage";
+import NoteDetailPage from "./pages/NoteDetailPage";
+import AddNotePage from "./pages/AddNotePage";
+import ArchivePage from "./pages/ArchivePage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -24,4 +24,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

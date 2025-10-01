@@ -2,12 +2,12 @@
 
 export const formatDate = (dateString) => {
   const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   };
-  return new Date(dateString).toLocaleDateString('id-ID', options);
+  return new Date(dateString).toLocaleDateString("id-ID", options);
 };
 
 // Search notes by title with case-insensitive matching
@@ -28,8 +28,8 @@ export const getArchivedNotes = (notes) => {
 export const addNote = ({ title, body }) => {
   return {
     id: `notes-${+new Date()}`,
-    title: title || '',
-    body: body || '',
+    title: title || "",
+    body: body || "",
     archived: false,
     createdAt: new Date().toISOString(),
   };

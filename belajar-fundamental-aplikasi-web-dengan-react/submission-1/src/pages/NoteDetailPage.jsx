@@ -1,8 +1,8 @@
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Archive, ArchiveRestore, Trash2, Clock, Edit } from 'lucide-react';
-import { useNotes } from '../utils/hooks';
-import { getNoteById, formatDate } from '../utils/notes';
-import Layout from '../components/Layout';
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { ArrowLeft, Archive, ArchiveRestore, Trash2, Clock, Edit } from "lucide-react";
+import { useNotes } from "../utils/hooks";
+import { getNoteById, formatDate } from "../utils/notes";
+import Layout from "../components/Layout";
 
 const NoteDetailPage = () => {
   const { id } = useParams();
@@ -17,7 +17,7 @@ const NoteDetailPage = () => {
         <div className="max-w-4xl mx-auto">
           <div className="card-glass text-center py-16">
             <h2 className="text-2xl font-bold text-white mb-4">Note Not Found</h2>
-            <p className="text-gray-400 mb-6">The note you're looking for doesn't exist or has been deleted.</p>
+            <p className="text-gray-400 mb-6">The note you"re looking for doesn"t exist or has been deleted.</p>
             <Link
               to="/"
               className="inline-flex items-center space-x-2 btn-glass btn-primary"
@@ -36,12 +36,12 @@ const NoteDetailPage = () => {
   };
 
   const handleDelete = () => {
-    if (window.confirm('Are you sure you want to delete this note? This action cannot be undone.')) {
+    if (window.confirm("Are you sure you want to delete this note? This action cannot be undone.")) {
       try {
         deleteNote(note.id);
-        navigate('/', { replace: true });
+        navigate("/", { replace: true });
       } catch (error) {
-        console.error('Error deleting note:', error);
+        console.error("Error deleting note:", error);
       }
     }
   };
@@ -67,7 +67,7 @@ const NoteDetailPage = () => {
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-8">
             <div className="flex-1 min-w-0">
               <h1 className="text-3xl lg:text-4xl font-bold text-white mb-4 break-words">
-                {note.title || 'Untitled'}
+                {note.title || "Untitled"}
               </h1>
 
               <div className="flex items-center text-gray-400 text-sm mb-6">
@@ -88,14 +88,14 @@ const NoteDetailPage = () => {
                 onClick={handleArchive}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg btn-glass transition-all duration-300 ${
                   note.archived
-                    ? 'hover:bg-blue-500/20 text-blue-400'
-                    : 'hover:bg-yellow-500/20 text-yellow-400'
+                    ? "hover:bg-blue-500/20 text-blue-400"
+                    : "hover:bg-yellow-500/20 text-yellow-400"
                 }`}
-                title={note.archived ? 'Restore from archive' : 'Archive note'}
+                title={note.archived ? "Restore from archive" : "Archive note"}
               >
                 {note.archived ? <ArchiveRestore size={18} /> : <Archive size={18} />}
                 <span className="hidden sm:inline">
-                  {note.archived ? 'Restore' : 'Archive'}
+                  {note.archived ? "Restore" : "Archive"}
                 </span>
               </button>
 

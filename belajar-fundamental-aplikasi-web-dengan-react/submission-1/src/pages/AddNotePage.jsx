@@ -1,12 +1,12 @@
-import { useState, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Save } from 'lucide-react';
-import { useNotes } from '../utils/hooks';
-import Layout from '../components/Layout';
+import { useState, useRef } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { ArrowLeft, Save } from "lucide-react";
+import { useNotes } from "../utils/hooks";
+import Layout from "../components/Layout";
 
 const AddNotePage = () => {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const bodyRef = useRef(null);
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const AddNotePage = () => {
 
   const handleSave = async () => {
     if (!title.trim() && !body.trim()) {
-      alert('Please add a title or content to your note.');
+      alert("Please add a title or content to your note.");
       return;
     }
 
@@ -30,22 +30,22 @@ const AddNotePage = () => {
 
     try {
       const noteData = {
-        title: title.trim() || 'Untitled',
+        title: title.trim() || "Untitled",
         body: body.trim()
       };
 
       addNote(noteData);
-      navigate('/');
+      navigate("/");
     } catch (error) {
-      console.error('Error saving note:', error);
-      alert('Failed to save note. Please try again.');
+      console.error("Error saving note:", error);
+      alert("Failed to save note. Please try again.");
     } finally {
       setIsSaving(false);
     }
   };
 
   const handleKeyDown = (e) => {
-    if (e.ctrlKey && e.key === 's') {
+    if (e.ctrlKey && e.key === "s") {
       e.preventDefault();
       handleSave();
     }
@@ -54,7 +54,7 @@ const AddNotePage = () => {
 
   const handleBack = () => {
     if (title.trim() || body.trim()) {
-      if (window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
+      if (window.confirm("You have unsaved changes. Are you sure you want to leave?")) {
         navigate(-1);
       }
     } else {
@@ -80,7 +80,7 @@ const AddNotePage = () => {
             className="inline-flex items-center space-x-2 btn-glass btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Save size={18} />
-            <span>{isSaving ? 'Saving...' : 'Save Note'}</span>
+            <span>{isSaving ? "Saving..." : "Save Note"}</span>
           </button>
         </div>
 
@@ -119,12 +119,12 @@ const AddNotePage = () => {
                   placeholder="Start writing your note here..."
                   className="w-full min-h-[400px] p-4 rounded-lg border transition-all duration-300 bg-transparent focus:outline-none focus:border-blue-500 focus:bg-black/10 resize-y text-base"
                   style={{
-                    background: 'var(--bg-glass)',
-                    backdropFilter: 'blur(20px)',
-                    WebkitBackdropFilter: 'blur(20px)',
-                    borderColor: 'var(--border-glass)',
-                    color: 'var(--text-primary)',
-                    fontFamily: 'inherit'
+                    background: "var(--bg-glass)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    borderColor: "var(--border-glass)",
+                    color: "var(--text-primary)",
+                    fontFamily: "inherit"
                   }}
                 />
 
@@ -150,7 +150,7 @@ const AddNotePage = () => {
                 className="btn-glass hover:bg-white/10 transition-all duration-300"
                 onClick={(e) => {
                   if (title.trim() || body.trim()) {
-                    if (!window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
+                    if (!window.confirm("You have unsaved changes. Are you sure you want to leave?")) {
                       e.preventDefault();
                     }
                   }
@@ -165,7 +165,7 @@ const AddNotePage = () => {
                 className="btn-glass btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save size={16} className="mr-2" />
-                {isSaving ? 'Saving...' : 'Save Note'}
+                {isSaving ? "Saving..." : "Save Note"}
               </button>
             </div>
           </div>

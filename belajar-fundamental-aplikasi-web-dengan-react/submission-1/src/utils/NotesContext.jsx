@@ -1,21 +1,21 @@
-import { useReducer } from 'react';
-import { NotesContext } from './context.js';
-import getInitialData from './initialData';
-import { addNote, deleteNote, archiveNote } from './notes';
+import { useReducer } from "react";
+import { NotesContext } from "./context.js";
+import getInitialData from "./initialData";
+import { addNote, deleteNote, archiveNote } from "./notes";
 
 const notesReducer = (state, action) => {
   switch (action.type) {
-    case 'ADD_NOTE':
+    case "ADD_NOTE":
       return {
         ...state,
         notes: [addNote(action.payload), ...state.notes],
       };
-    case 'DELETE_NOTE':
+    case "DELETE_NOTE":
       return {
         ...state,
         notes: deleteNote(state.notes, action.payload),
       };
-    case 'ARCHIVE_NOTE':
+    case "ARCHIVE_NOTE":
       return {
         ...state,
         notes: archiveNote(state.notes, action.payload),
@@ -31,15 +31,15 @@ export const NotesProvider = ({ children }) => {
   });
 
   const addNewNote = (noteData) => {
-    dispatch({ type: 'ADD_NOTE', payload: noteData });
+    dispatch({ type: "ADD_NOTE", payload: noteData });
   };
 
   const removeNote = (id) => {
-    dispatch({ type: 'DELETE_NOTE', payload: id });
+    dispatch({ type: "DELETE_NOTE", payload: id });
   };
 
   const toggleArchiveNote = (id) => {
-    dispatch({ type: 'ARCHIVE_NOTE', payload: id });
+    dispatch({ type: "ARCHIVE_NOTE", payload: id });
   };
 
   const value = {

@@ -1,5 +1,5 @@
-import Navigation from './Navigation';
-import PixelBlast from './PixelBlast';
+import Navigation from "./Navigation";
+import PixelBlast from "./PixelBlast";
 
 const Layout = ({ children }) => {
   return (
@@ -8,15 +8,15 @@ const Layout = ({ children }) => {
       <div
         className="fixed z-0"
         style={{
-          width: '100vw',
-          height: '100vh',
+          width: "100vw",
+          height: "100vh",
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
           margin: 0,
           padding: 0,
-          position: 'fixed'
+          position: "fixed"
         }}>
         <PixelBlast
             variant="circle"

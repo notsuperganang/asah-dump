@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { Home, ArrowLeft, Search } from 'lucide-react';
-import Layout from '../components/Layout';
+import { Link } from "react-router-dom";
+import { Home, ArrowLeft, Search } from "lucide-react";
+import Layout from "../components/Layout";
 
 const NotFoundPage = () => {
   return (
@@ -13,7 +13,7 @@ const NotFoundPage = () => {
               Page Not Found
             </h2>
             <p className="text-gray-400 mb-8">
-              Sorry, the page you are looking for doesn't exist or has been moved.
+              Sorry, the page you are looking for doesn"t exist or has been moved.
               The URL might be incorrect or the content may have been deleted.
             </p>
           </div>
