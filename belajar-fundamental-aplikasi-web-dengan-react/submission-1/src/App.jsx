@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import { LocaleProvider } from "./contexts/LocaleContext";
 import { NotesProvider } from "./utils/NotesContext.jsx";
 import { useAuth } from "./hooks/useAuth";
 import NotesPage from "./pages/NotesPage";
@@ -115,9 +117,13 @@ function AppRoutes() {
 function App() {
   return (
     <AuthProvider>
-      <NotesProvider>
-        <AppRoutes />
-      </NotesProvider>
+      <ThemeProvider>
+        <LocaleProvider>
+          <NotesProvider>
+            <AppRoutes />
+          </NotesProvider>
+        </LocaleProvider>
+      </ThemeProvider>
     </AuthProvider>
   );
 }
