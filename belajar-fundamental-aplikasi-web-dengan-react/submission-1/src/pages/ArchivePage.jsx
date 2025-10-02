@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useNotes } from "../utils/hooks";
+import { useLocale } from "../hooks/useLocale";
 import { getArchivedNotes, searchNotes } from "../utils/notes";
 import Layout from "../components/Layout";
 import SearchBar from "../components/SearchBar";
@@ -11,6 +12,7 @@ import { Archive } from "lucide-react";
 
 const ArchivePage = () => {
   const { notes, deleteNote, toggleArchive, isLoading } = useNotes();
+  const { localeText } = useLocale();
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
 
@@ -39,14 +41,13 @@ const ArchivePage = () => {
       <div className="space-y-12">
         <div className="text-center pt-8">
           <div className="flex items-center justify-center mb-6">
-            <Archive size={48} className="text-gray-400 mr-3" />
-            <h1 className="text-4xl font-bold text-white">
-              Archived Notes
+            <Archive size={48} style={{ color: "var(--text-muted)" }} className="mr-3" />
+            <h1 className="text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
+              {localeText.pages.archive.title}
             </h1>
           </div>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
-            Your archived notes are stored here. You can restore them back to your active notes
-            or delete them permanently.
+          <p className="max-w-2xl mx-auto text-lg leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            {localeText.pages.archive.subtitle}
           </p>
         </div>
 
@@ -56,26 +57,26 @@ const ArchivePage = () => {
 
         {keyword && (
           <div className="text-center">
-            <p className="text-gray-400">
+            <p style={{ color: "var(--text-secondary)" }}>
               {displayedNotes.length > 0
-                ? `Found ${displayedNotes.length} archived note${displayedNotes.length === 1 ? "" : "s"} matching "${keyword}"`
-                : `No archived notes found matching "${keyword}"`
+                ? `${localeText.pages.notes.found} ${displayedNotes.length} ${displayedNotes.length === 1 ? localeText.pages.archive.archivedNote : localeText.pages.archive.archivedNote + "s"} ${localeText.pages.notes.matching} "${keyword}"`
+                : `${localeText.pages.archive.noArchivedMatch} "${keyword}"`
               }
             </p>
           </div>
         )}
 
         {isLoading ? (
-          <LoadingSpinner text="Loading archived notes..." />
+          <LoadingSpinner text={localeText.components.loading.loadingArchived} />
         ) : displayedNotes.length > 0 ? (
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-white">
-                {displayedNotes.length} Archived Note{displayedNotes.length === 1 ? "" : "s"}
+              <h2 className="text-xl font-semibold" style={{ color: "var(--text-primary)" }}>
+                {displayedNotes.length} {displayedNotes.length === 1 ? localeText.pages.archive.archivedNote : localeText.pages.archive.archivedNote + "s"}
               </h2>
 
-              <div className="text-sm text-gray-400">
-                Click the restore button to move notes back to active
+              <div className="text-sm" style={{ color: "var(--text-secondary)" }}>
+                {localeText.pages.archive.restoreHint}
               </div>
             </div>
 
@@ -93,11 +94,11 @@ const ArchivePage = () => {
           </div>
         ) : (
           <EmptyState
-            title={keyword ? "No archived notes found" : "Archive is empty"}
+            title={keyword ? localeText.components.emptyState.noMatch : localeText.pages.archive.empty}
             message={
               keyword
-                ? "No archived notes match your search criteria."
-                : "No notes have been archived yet. Archive notes from your main notes list to see them here."
+                ? localeText.components.emptyState.adjustSearch
+                : localeText.pages.archive.emptyMessage
             }
             type="archive"
             showAddButton={false}

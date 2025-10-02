@@ -1,6 +1,7 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { ArrowLeft, Archive, ArchiveRestore, Trash2, Clock, Edit } from "lucide-react";
 import { useNotes } from "../utils/hooks";
+import { useLocale } from "../hooks/useLocale";
 import { getNoteById, formatDate } from "../utils/notes";
 import Layout from "../components/Layout";
 
@@ -8,6 +9,7 @@ const NoteDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { notes, deleteNote, toggleArchive } = useNotes();
+  const { localeText } = useLocale();
 
   const note = getNoteById(notes, id);
 
@@ -16,14 +18,14 @@ const NoteDetailPage = () => {
       <Layout>
         <div className="max-w-4xl mx-auto">
           <div className="card-glass text-center py-16">
-            <h2 className="text-2xl font-bold text-white mb-4">Note Not Found</h2>
-            <p className="text-gray-400 mb-6">The note you"re looking for doesn"t exist or has been deleted.</p>
+            <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--text-primary)" }}>{localeText.pages.detail.notFound}</h2>
+            <p className="mb-6" style={{ color: "var(--text-secondary)" }}>{localeText.pages.detail.notFoundMessage}</p>
             <Link
               to="/"
               className="inline-flex items-center space-x-2 btn-glass btn-primary"
             >
               <ArrowLeft size={18} />
-              <span>Back to Notes</span>
+              <span>{localeText.pages.detail.backToNotes}</span>
             </Link>
           </div>
         </div>
@@ -36,7 +38,7 @@ const NoteDetailPage = () => {
   };
 
   const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this note? This action cannot be undone.")) {
+    if (window.confirm(`${localeText.components.noteCard.confirmDelete} ${localeText.components.noteCard.thisNote}${localeText.components.noteCard.cannotUndo}`)) {
       try {
         const { error } = await deleteNote(note.id);
         if (!error) {
@@ -61,25 +63,25 @@ const NoteDetailPage = () => {
             className="inline-flex items-center space-x-2 btn-glass hover:bg-white/10 transition-all duration-300"
           >
             <ArrowLeft size={18} />
-            <span>Back</span>
+            <span>{localeText.pages.add.back}</span>
           </button>
         </div>
 
         <div className="card-glass">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-8">
             <div className="flex-1 min-w-0">
-              <h1 className="text-3xl lg:text-4xl font-bold text-white mb-4 break-words">
-                {note.title || "Untitled"}
+              <h1 className="text-3xl lg:text-4xl font-bold mb-4 break-words" style={{ color: "var(--text-primary)" }}>
+                {note.title || localeText.components.noteCard.untitled}
               </h1>
 
-              <div className="flex items-center text-gray-400 text-sm mb-6">
+              <div className="flex items-center text-sm mb-6" style={{ color: "var(--text-muted)" }}>
                 <Clock size={16} className="mr-2" />
                 <span>{formatDate(note.createdAt)}</span>
                 {note.archived && (
                   <>
                     <span className="mx-3">•</span>
                     <Archive size={16} className="mr-2" />
-                    <span>Archived</span>
+                    <span>{localeText.pages.detail.archived}</span>
                   </>
                 )}
               </div>
@@ -93,29 +95,29 @@ const NoteDetailPage = () => {
                     ? "hover:bg-blue-500/20 text-blue-400"
                     : "hover:bg-yellow-500/20 text-yellow-400"
                 }`}
-                title={note.archived ? "Restore from archive" : "Archive note"}
+                title={note.archived ? localeText.components.noteCard.restore : localeText.components.noteCard.archive}
               >
                 {note.archived ? <ArchiveRestore size={18} /> : <Archive size={18} />}
                 <span className="hidden sm:inline">
-                  {note.archived ? "Restore" : "Archive"}
+                  {note.archived ? localeText.pages.detail.restore : localeText.pages.detail.archive}
                 </span>
               </button>
 
               <button
                 onClick={handleDelete}
                 className="flex items-center space-x-2 px-4 py-2 rounded-lg btn-glass btn-danger transition-all duration-300"
-                title="Delete note"
+                title={localeText.components.noteCard.delete}
               >
                 <Trash2 size={18} />
-                <span className="hidden sm:inline">Delete</span>
+                <span className="hidden sm:inline">{localeText.pages.detail.delete}</span>
               </button>
             </div>
           </div>
 
           <div className="prose prose-invert prose-lg max-w-none overflow-hidden">
-            <div className="text-gray-300 leading-relaxed whitespace-pre-wrap break-words overflow-wrap-anywhere">
+            <div className="leading-relaxed whitespace-pre-wrap break-words overflow-wrap-anywhere" style={{ color: "var(--text-secondary)" }}>
               {note.body ? note.body : (
-                <p className="text-gray-500 italic">No content available.</p>
+                <p className="italic" style={{ color: "var(--text-muted)" }}>{localeText.pages.detail.noContent}</p>
               )}
             </div>
           </div>
@@ -127,7 +129,7 @@ const NoteDetailPage = () => {
             className="inline-flex items-center space-x-2 btn-glass btn-primary"
           >
             <ArrowLeft size={18} />
-            <span>Back to Notes</span>
+            <span>{localeText.pages.detail.backToNotes}</span>
           </Link>
         </div>
       </div>

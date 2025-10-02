@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useNotes } from "../utils/hooks";
+import { useLocale } from "../hooks/useLocale";
 import { getActiveNotes, searchNotes } from "../utils/notes";
 import Layout from "../components/Layout";
 import SearchBar from "../components/SearchBar";
@@ -10,6 +11,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 
 const NotesPage = () => {
   const { notes, deleteNote, toggleArchive, isLoading } = useNotes();
+  const { localeText } = useLocale();
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
 
@@ -37,12 +39,11 @@ const NotesPage = () => {
     <Layout>
       <div className="space-y-12">
         <div className="text-center pt-8">
-          <h1 className="text-4xl font-bold text-white mb-6">
-            My Notes
+          <h1 className="text-4xl font-bold mb-6" style={{ color: "var(--text-primary)" }}>
+            {localeText.pages.notes.title}
           </h1>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
-            Organize your thoughts, ideas, and important information in one place.
-            Create, edit, and manage your notes with ease.
+          <p className="max-w-2xl mx-auto text-lg leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            {localeText.pages.notes.subtitle}
           </p>
         </div>
 
@@ -52,17 +53,17 @@ const NotesPage = () => {
 
         {keyword && (
           <div className="text-center">
-            <p className="text-gray-400">
+            <p style={{ color: "var(--text-secondary)" }}>
               {displayedNotes.length > 0
-                ? `Found ${displayedNotes.length} note${displayedNotes.length === 1 ? "" : "s"} matching "${keyword}"`
-                : `No notes found matching "${keyword}"`
+                ? `${localeText.pages.notes.found} ${displayedNotes.length} ${displayedNotes.length === 1 ? localeText.pages.notes.note : localeText.pages.notes.notes} ${localeText.pages.notes.matching} "${keyword}"`
+                : `${localeText.pages.notes.noMatch} "${keyword}"`
               }
             </p>
           </div>
         )}
 
         {isLoading ? (
-          <LoadingSpinner text="Loading notes..." />
+          <LoadingSpinner text={localeText.components.loading.loadingNotes} />
         ) : displayedNotes.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
             {displayedNotes.map((note) => (
@@ -77,7 +78,8 @@ const NotesPage = () => {
           </div>
         ) : (
           <EmptyState
-            title={keyword ? "No notes found" : "No notes yet"}
+            title={keyword ? localeText.components.emptyState.noMatch : localeText.components.emptyState.noNotes}
+            message={keyword ? localeText.components.emptyState.adjustSearch : localeText.components.emptyState.noNotesMessage}
             type={keyword ? "search" : "notes"}
             showAddButton={!keyword}
           />

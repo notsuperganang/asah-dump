@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search, X } from "lucide-react";
+import { useLocale } from "../hooks/useLocale";
 
 const SearchBar = ({ onSearch }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
+  const { localeText } = useLocale();
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
@@ -36,14 +38,15 @@ const SearchBar = ({ onSearch }) => {
         type="text"
         value={keyword}
         onChange={handleInputChange}
-        placeholder="Search notes by title..."
+        placeholder={localeText.components.searchBar.placeholder}
         className="input-glass pl-10 pr-10"
       />
 
       {keyword && (
         <button
           onClick={clearSearch}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white transition-colors"
+          className="absolute inset-y-0 right-0 pr-3 flex items-center transition-colors"
+          style={{ color: "var(--text-muted)" }}
         >
           <X className="h-5 w-5" />
         </button>
