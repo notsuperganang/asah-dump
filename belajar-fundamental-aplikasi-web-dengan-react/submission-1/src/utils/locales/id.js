@@ -7,6 +7,17 @@ const id = {
     logout: "Keluar",
     light: "Terang",
     dark: "Gelap",
+    // Tooltips
+    tooltips: {
+      notes: "Catatan",
+      archive: "Arsip",
+      addNote: "Tambah Catatan",
+      language: "Ubah ke English",
+      lightMode: "Mode Terang",
+      darkMode: "Mode Gelap",
+      profile: "Profil",
+      logout: "Keluar",
+    },
   },
 
   // Pages

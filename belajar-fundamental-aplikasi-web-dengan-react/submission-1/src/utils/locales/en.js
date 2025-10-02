@@ -7,6 +7,17 @@ const en = {
     logout: "Logout",
     light: "Light",
     dark: "Dark",
+    // Tooltips
+    tooltips: {
+      notes: "Notes",
+      archive: "Archive",
+      addNote: "Add Note",
+      language: "Switch to Indonesian",
+      lightMode: "Light Mode",
+      darkMode: "Dark Mode",
+      profile: "Profile",
+      logout: "Logout",
+    },
   },
 
   // Pages
