@@ -8,8 +8,9 @@ const Layout = ({ children }) => {
       <div
         className="fixed z-0"
         style={{
-          width: "100vw",
-          height: "100vh",
+          width: "100%",
+          height: "100%",
+          minHeight: "100vh",
           top: 0,
           left: 0,
           right: 0,
@@ -19,28 +20,28 @@ const Layout = ({ children }) => {
           position: "fixed"
         }}>
         <PixelBlast
-            variant="circle"
-            pixelSize={6}
-            color="#B19EEF"
-            patternScale={3}
-            patternDensity={1.2}
-            pixelSizeJitter={0.5}
-            enableRipples
-            rippleSpeed={0.4}
-            rippleThickness={0.12}
-            rippleIntensityScale={1.5}
-            liquid
-            liquidStrength={0.12}
-            liquidRadius={1.2}
-            liquidWobbleSpeed={5}
-            speed={0.6}
-            edgeFade={0.25}
-            transparent
-          />
+          variant="circle"
+          pixelSize={6}
+          color="#B19EEF"
+          patternScale={3}
+          patternDensity={1.2}
+          pixelSizeJitter={0.5}
+          enableRipples
+          rippleSpeed={0.4}
+          rippleThickness={0.12}
+          rippleIntensityScale={1.5}
+          liquid={false}
+          liquidStrength={0.12}
+          liquidRadius={1.2}
+          liquidWobbleSpeed={5}
+          speed={0.6}
+          edgeFade={0.25}
+          transparent
+        />
       </div>
 
       {/* Content layer */}
-      <div className="relative z-10">
+      <div className="relative z-10" style={{ pointerEvents: "none" }}>
         <main className="pt-8 pb-32 px-4">
           <div className="max-w-6xl mx-auto">
             {children}
