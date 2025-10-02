@@ -1,4 +1,4 @@
-import Navigation from "./Navigation";
+import DockNavigation from "./DockNavigation";
 import PixelBlast from "./PixelBlast";
 
 const Layout = ({ children }) => {
@@ -41,13 +41,15 @@ const Layout = ({ children }) => {
 
       {/* Content layer */}
       <div className="relative z-10">
-        <Navigation />
-        <main className="pt-32 pb-8 mt-6">
-          <div className="max-w-6xl mx-auto px-4">
+        <main className="pt-8 pb-32 px-4">
+          <div className="max-w-6xl mx-auto">
             {children}
           </div>
         </main>
       </div>
+
+      {/* Floating dock navigation */}
+      <DockNavigation />
     </div>
   );
 };
