@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 
 criteria.txt
+api_docs.md
