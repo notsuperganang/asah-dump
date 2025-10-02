@@ -12,13 +12,11 @@ const DockNavigation = () => {
   const location = useLocation();
   const { authedUser, onLogout } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  const { locale, toggleLocale } = useLocale();
+  const { locale, toggleLocale, localeText } = useLocale();
   const themeButtonRef = useRef(null);
 
   const handleThemeToggle = useCallback(async (e) => {
     e.preventDefault();
-
-    const button = e.currentTarget;
 
     // Check if View Transitions API is supported
     if (!document.startViewTransition) {
@@ -26,25 +24,29 @@ const DockNavigation = () => {
       return;
     }
 
-    await document.startViewTransition(() => {
+    // Get the icon element (the actual svg/icon, not the anchor wrapper)
+    const iconElement = e.currentTarget.querySelector("svg") || e.currentTarget;
+    const { top, left, width, height } = iconElement.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = document.startViewTransition(() => {
       flushSync(() => {
         toggleTheme();
       });
-    }).ready;
+    });
 
-    const { top, left, width, height } = button.getBoundingClientRect();
-    const x = left + width / 2;
-    const y = top + height / 2;
-    const maxRadius = Math.hypot(
-      Math.max(left, window.innerWidth - left),
-      Math.max(top, window.innerHeight - top)
-    );
+    await transition.ready;
 
     document.documentElement.animate(
       {
         clipPath: [
           `circle(0px at ${x}px ${y}px)`,
-          `circle(${maxRadius}px at ${x}px ${y}px)`,
+          `circle(${endRadius}px at ${x}px ${y}px)`,
         ],
       },
       {
@@ -77,7 +79,7 @@ const DockNavigation = () => {
 
   const links = [
     {
-      title: "Notes",
+      title: localeText.nav.tooltips.notes,
       icon: (
         <Home className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
@@ -85,7 +87,7 @@ const DockNavigation = () => {
       onClick: handleNavigation("/"),
     },
     {
-      title: "Archive",
+      title: localeText.nav.tooltips.archive,
       icon: (
         <Archive className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
@@ -93,7 +95,7 @@ const DockNavigation = () => {
       onClick: handleNavigation("/archive"),
     },
     {
-      title: "Add Note",
+      title: localeText.nav.tooltips.addNote,
       icon: (
         <Plus className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
@@ -101,7 +103,7 @@ const DockNavigation = () => {
       onClick: handleNavigation("/notes/new"),
     },
     {
-      title: `Language: ${locale.toUpperCase()}`,
+      title: localeText.nav.tooltips.language,
       icon: (
         <Languages className="h-full w-full text-blue-500 dark:text-blue-400" />
       ),
@@ -109,7 +111,7 @@ const DockNavigation = () => {
       onClick: handleLanguageToggle,
     },
     {
-      title: theme === "dark" ? "Light Mode" : "Dark Mode",
+      title: theme === "dark" ? localeText.nav.tooltips.lightMode : localeText.nav.tooltips.darkMode,
       icon: theme === "dark" ? (
         <Sun className="h-full w-full text-yellow-500 dark:text-yellow-400" />
       ) : (
@@ -129,7 +131,7 @@ const DockNavigation = () => {
   ];
 
   return (
-    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
+    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50" style={{ pointerEvents: "auto" }}>
       <FloatingDock items={links} />
     </div>
   );

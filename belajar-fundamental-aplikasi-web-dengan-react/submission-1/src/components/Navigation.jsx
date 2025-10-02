@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Home, Archive, Plus, LogOut, User } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
+import { useLocale } from "../hooks/useLocale";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
 
@@ -8,6 +9,8 @@ const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { authedUser, onLogout } = useAuth();
+  const { localeText } = useLocale();
+  const { nav } = localeText;
 
   const isActive = (path) => {
     if (path === "/" && location.pathname === "/") return true;
@@ -38,7 +41,7 @@ const Navigation = () => {
               }`}
             >
               <Home size={18} />
-              <span>Notes</span>
+              <span>{nav.notes}</span>
             </Link>
 
             <Link
@@ -50,7 +53,7 @@ const Navigation = () => {
               }`}
             >
               <Archive size={18} />
-              <span>Archive</span>
+              <span>{nav.archive}</span>
             </Link>
 
             <Link
@@ -58,7 +61,7 @@ const Navigation = () => {
               className="flex items-center space-x-2 px-4 py-2 rounded-lg btn-primary transition-all duration-300"
             >
               <Plus size={18} />
-              <span>Add Note</span>
+              <span>{nav.addNote}</span>
             </Link>
 
             {authedUser && (
@@ -74,7 +77,7 @@ const Navigation = () => {
                   className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-all duration-300"
                 >
                   <LogOut size={18} />
-                  <span>Logout</span>
+                  <span>{nav.logout}</span>
                 </button>
               </>
             )}
