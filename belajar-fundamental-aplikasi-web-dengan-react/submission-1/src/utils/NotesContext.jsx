@@ -11,8 +11,9 @@ import {
 
 export const NotesProvider = ({ children }) => {
   const [notes, setNotes] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
   const fetchNotes = async () => {
     setIsLoading(true);
@@ -37,6 +38,7 @@ export const NotesProvider = ({ children }) => {
       setNotes([]);
     } finally {
       setIsLoading(false);
+      setInitialLoadComplete(true);
     }
   };
 
@@ -94,11 +96,12 @@ export const NotesProvider = ({ children }) => {
     notes,
     isLoading,
     error,
+    initialLoadComplete,
     addNote,
     deleteNote,
     toggleArchive,
     refetchNotes: fetchNotes,
-  }), [notes, isLoading, error]);
+  }), [notes, isLoading, error, initialLoadComplete]);
 
   return (
     <NotesContext.Provider value={value}>
