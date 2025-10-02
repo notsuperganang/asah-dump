@@ -2,8 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { LogIn } from "lucide-react";
 import useInput from "../hooks/useInput";
 import { useAuth } from "../hooks/useAuth";
+import { useLocale } from "../hooks/useLocale";
 import { login } from "../utils/network-data";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import LiquidChrome from "../components/LiquidChrome";
 
 const LoginPage = () => {
   const [email, onEmailChange] = useInput("");
@@ -11,6 +13,7 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { onLoginSuccess } = useAuth();
+  const { localeText } = useLocale();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,7 +21,7 @@ const LoginPage = () => {
     setError("");
 
     if (!email || !password) {
-      setError("Email and password are required");
+      setError(localeText.messages.error.requiredFields);
       return;
     }
 
@@ -27,7 +30,7 @@ const LoginPage = () => {
     const { error: loginError, data } = await login({ email, password });
 
     if (loginError) {
-      setError("Invalid email or password");
+      setError(localeText.messages.error.invalidCredentials);
       setIsLoading(false);
       return;
     }
@@ -37,15 +40,30 @@ const LoginPage = () => {
     navigate("/");
   };
 
+  const liquidChromeBackground = useMemo(() => (
+    <div className="fixed inset-0 z-0">
+      <LiquidChrome
+        baseColor={[0.1, 0.1, 0.1]}
+        speed={0.3}
+        amplitude={0.3}
+        interactive={true}
+      />
+    </div>
+  ), []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12">
-      <div className="card-glass max-w-md w-full">
+    <div className="min-h-screen relative flex items-center justify-center px-4 py-12">
+      {/* LiquidChrome background */}
+      {liquidChromeBackground}
+
+      {/* Content */}
+      <div className="max-w-md w-full relative z-10 rounded-2xl backdrop-filter backdrop-blur-2xl bg-white/10 border border-white/20 p-8 shadow-2xl">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-500/20 mb-4">
             <LogIn size={32} className="text-blue-400" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-          <p className="text-gray-400">Sign in to access your notes</p>
+          <h1 className="text-3xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>{localeText.pages.login.title}</h1>
+          <p style={{ color: "var(--text-secondary)" }}>{localeText.pages.login.subtitle}</p>
         </div>
 
         {error && (
@@ -56,15 +74,15 @@ const LoginPage = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-              Email
+            <label htmlFor="email" className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
+              {localeText.pages.login.email}
             </label>
             <input
               id="email"
               type="email"
               value={email}
               onChange={onEmailChange}
-              placeholder="Enter your email"
+              placeholder={localeText.pages.login.emailPlaceholder}
               className="input-glass"
               autoComplete="email"
               disabled={isLoading}
@@ -72,15 +90,15 @@ const LoginPage = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
-              Password
+            <label htmlFor="password" className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
+              {localeText.pages.login.password}
             </label>
             <input
               id="password"
               type="password"
               value={password}
               onChange={onPasswordChange}
-              placeholder="Enter your password"
+              placeholder={localeText.pages.login.passwordPlaceholder}
               className="input-glass"
               autoComplete="current-password"
               disabled={isLoading}
@@ -92,15 +110,15 @@ const LoginPage = () => {
             disabled={isLoading}
             className="w-full btn-glass btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "Signing in..." : "Sign In"}
+            {isLoading ? localeText.pages.login.signingIn : localeText.pages.login.signIn}
           </button>
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-gray-400 text-sm">
-            Don't have an account?{" "}
+          <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+            {localeText.pages.login.noAccount}{" "}
             <Link to="/register" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
-              Register here
+              {localeText.pages.login.register}
             </Link>
           </p>
         </div>

@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { UserPlus } from "lucide-react";
 import useInput from "../hooks/useInput";
+import { useLocale } from "../hooks/useLocale";
 import { register } from "../utils/network-data";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import LiquidChrome from "../components/LiquidChrome";
 
 const RegisterPage = () => {
   const [name, onNameChange] = useInput("");
@@ -11,6 +13,7 @@ const RegisterPage = () => {
   const [confirmPassword, onConfirmPasswordChange] = useInput("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { localeText } = useLocale();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,17 +21,17 @@ const RegisterPage = () => {
     setError("");
 
     if (!name || !email || !password || !confirmPassword) {
-      setError("All fields are required");
+      setError(localeText.messages.error.requiredFields);
       return;
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters");
+      setError(localeText.messages.error.minPassword);
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(localeText.messages.error.passwordMismatch);
       return;
     }
 
@@ -37,7 +40,7 @@ const RegisterPage = () => {
     const { error: registerError } = await register({ name, email, password });
 
     if (registerError) {
-      setError("Registration failed. Email may already be in use");
+      setError(localeText.messages.error.registrationFailed);
       setIsLoading(false);
       return;
     }
@@ -46,15 +49,30 @@ const RegisterPage = () => {
     navigate("/login");
   };
 
+  const liquidChromeBackground = useMemo(() => (
+    <div className="fixed inset-0 z-0">
+      <LiquidChrome
+        baseColor={[0.1, 0.1, 0.1]}
+        speed={0.3}
+        amplitude={0.3}
+        interactive={true}
+      />
+    </div>
+  ), []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12">
-      <div className="card-glass max-w-md w-full">
+    <div className="min-h-screen relative flex items-center justify-center px-4 py-12">
+      {/* LiquidChrome background */}
+      {liquidChromeBackground}
+
+      {/* Content */}
+      <div className="max-w-md w-full relative z-10 rounded-2xl backdrop-filter backdrop-blur-2xl bg-white/10 border border-white/20 p-8 shadow-2xl">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-500/20 mb-4">
             <UserPlus size={32} className="text-blue-400" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Create Account</h1>
-          <p className="text-gray-400">Sign up to start taking notes</p>
+          <h1 className="text-3xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>{localeText.pages.register.title}</h1>
+          <p style={{ color: "var(--text-secondary)" }}>{localeText.pages.register.subtitle}</p>
         </div>
 
         {error && (
@@ -65,15 +83,15 @@ const RegisterPage = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-              Name
+            <label htmlFor="name" className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
+              {localeText.pages.register.name}
             </label>
             <input
               id="name"
               type="text"
               value={name}
               onChange={onNameChange}
-              placeholder="Enter your name"
+              placeholder={localeText.pages.register.namePlaceholder}
               className="input-glass"
               autoComplete="name"
               disabled={isLoading}
@@ -81,15 +99,15 @@ const RegisterPage = () => {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-              Email
+            <label htmlFor="email" className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
+              {localeText.pages.register.email}
             </label>
             <input
               id="email"
               type="email"
               value={email}
               onChange={onEmailChange}
-              placeholder="Enter your email"
+              placeholder={localeText.pages.register.emailPlaceholder}
               className="input-glass"
               autoComplete="email"
               disabled={isLoading}
@@ -97,15 +115,15 @@ const RegisterPage = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
-              Password
+            <label htmlFor="password" className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
+              {localeText.pages.register.password}
             </label>
             <input
               id="password"
               type="password"
               value={password}
               onChange={onPasswordChange}
-              placeholder="Enter your password (min. 6 characters)"
+              placeholder={localeText.pages.register.passwordPlaceholder}
               className="input-glass"
               autoComplete="new-password"
               disabled={isLoading}
@@ -113,15 +131,15 @@ const RegisterPage = () => {
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
-              Confirm Password
+            <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
+              {localeText.pages.register.confirmPassword}
             </label>
             <input
               id="confirmPassword"
               type="password"
               value={confirmPassword}
               onChange={onConfirmPasswordChange}
-              placeholder="Confirm your password"
+              placeholder={localeText.pages.register.confirmPasswordPlaceholder}
               className="input-glass"
               autoComplete="new-password"
               disabled={isLoading}
@@ -133,15 +151,15 @@ const RegisterPage = () => {
             disabled={isLoading}
             className="w-full btn-glass btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "Creating account..." : "Create Account"}
+            {isLoading ? localeText.pages.register.creatingAccount : localeText.pages.register.createAccount}
           </button>
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-gray-400 text-sm">
-            Already have an account?{" "}
+          <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+            {localeText.pages.register.haveAccount}{" "}
             <Link to="/login" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
-              Sign in here
+              {localeText.pages.register.signIn}
             </Link>
           </p>
         </div>
