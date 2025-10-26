@@ -70,7 +70,7 @@ const NoteDetailPage = () => {
         <div className="card-glass">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-8">
             <div className="flex-1 min-w-0">
-              <h1 className="text-3xl lg:text-4xl font-bold mb-4 break-words" style={{ color: "var(--text-primary)" }}>
+              <h1 className="text-3xl lg:text-4xl font-bold mb-4 wrap-break-words" style={{ color: "var(--text-primary)" }}>
                 {note.title || localeText.components.noteCard.untitled}
               </h1>
 
@@ -115,7 +115,7 @@ const NoteDetailPage = () => {
           </div>
 
           <div className="prose prose-invert prose-lg max-w-none overflow-hidden">
-            <div className="leading-relaxed whitespace-pre-wrap break-words overflow-wrap-anywhere" style={{ color: "var(--text-secondary)" }}>
+            <div className="leading-relaxed whitespace-pre-wrap wrap-break-words overflow-wrap-anywhere" style={{ color: "var(--text-secondary)" }}>
               {note.body ? note.body : (
                 <p className="italic" style={{ color: "var(--text-muted)" }}>{localeText.pages.detail.noContent}</p>
               )}
