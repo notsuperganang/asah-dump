@@ -1,25 +1,12 @@
 const AlbumsService = require('../services/AlbumsService');
+const AlbumValidator = require('../validators/albums');
 
 const albumsService = new AlbumsService();
 
-const addAlbumHandler = async (req, res) => {
+const addAlbumHandler = async (req, res, next) => {
   try {
+    AlbumValidator.validateAlbumPayload(req.body);
     const { name, year } = req.body;
-
-    // Validasi
-    if (!name || !year) {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Gagal menambahkan album. Mohon isi name dan year',
-      });
-    }
-
-    if (typeof year !== 'number') {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Gagal menambahkan album. Year harus berupa angka',
-      });
-    }
 
     const albumId = await albumsService.addAlbum({ name, year });
 
@@ -30,14 +17,11 @@ const addAlbumHandler = async (req, res) => {
       },
     });
   } catch (error) {
-    return res.status(500).json({
-      status: 'error',
-      message: error.message,
-    });
+    next(error);
   }
 };
 
-const getAlbumByIdHandler = async (req, res) => {
+const getAlbumByIdHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -54,39 +38,15 @@ const getAlbumByIdHandler = async (req, res) => {
       },
     });
   } catch (error) {
-    if (error.message === 'Album tidak ditemukan') {
-      return res.status(404).json({
-        status: 'fail',
-        message: error.message,
-      });
-    }
-
-    return res.status(500).json({
-      status: 'error',
-      message: error.message,
-    });
+    next(error);
   }
 };
 
-const editAlbumByIdHandler = async (req, res) => {
+const editAlbumByIdHandler = async (req, res, next) => {
   try {
+    AlbumValidator.validateAlbumPayload(req.body);
     const { id } = req.params;
     const { name, year } = req.body;
-
-    // Validasi
-    if (!name || !year) {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Gagal memperbarui album. Mohon isi name dan year',
-      });
-    }
-
-    if (typeof year !== 'number') {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Gagal memperbarui album. Year harus berupa angka',
-      });
-    }
 
     await albumsService.editAlbumById(id, { name, year });
 
@@ -95,21 +55,11 @@ const editAlbumByIdHandler = async (req, res) => {
       message: 'Album berhasil diperbarui',
     });
   } catch (error) {
-    if (error.message.includes('Id tidak ditemukan')) {
-      return res.status(404).json({
-        status: 'fail',
-        message: error.message,
-      });
-    }
-
-    return res.status(500).json({
-      status: 'error',
-      message: error.message,
-    });
+    next(error);
   }
 };
 
-const deleteAlbumByIdHandler = async (req, res) => {
+const deleteAlbumByIdHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -120,17 +70,7 @@ const deleteAlbumByIdHandler = async (req, res) => {
       message: 'Album berhasil dihapus',
     });
   } catch (error) {
-    if (error.message.includes('Id tidak ditemukan')) {
-      return res.status(404).json({
-        status: 'fail',
-        message: error.message,
-      });
-    }
-
-    return res.status(500).json({
-      status: 'error',
-      message: error.message,
-    });
+    next(error);
   }
 };
 
