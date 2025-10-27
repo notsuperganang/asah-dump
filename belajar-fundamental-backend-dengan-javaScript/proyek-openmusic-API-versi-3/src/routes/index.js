@@ -95,6 +95,17 @@ const uploadWithErrorHandling = (req, res, next) => {
 // Accept any multipart field and pick 'cover' in handler for robustness
 router.post('/albums/:id/covers', uploadWithErrorHandling, uploadAlbumCoverHandler);
 
+// Album likes routes (V3 Criterion 3) - POST/DELETE require authentication, GET is public
+const {
+  likeAlbumHandler,
+  unlikeAlbumHandler,
+  getAlbumLikesHandler,
+} = require('../handlers/albumLikesHandler');
+
+router.post('/albums/:id/likes', authenticateToken, likeAlbumHandler);
+router.delete('/albums/:id/likes', authenticateToken, unlikeAlbumHandler);
+router.get('/albums/:id/likes', getAlbumLikesHandler);
+
 // Songs routes (V1)
 router.post('/songs', addSongHandler);
 router.get('/songs', getSongsHandler);
