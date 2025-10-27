@@ -7,6 +7,7 @@
     "start": "node src/server.js",
     "start-dev": "nodemon src/server.js",
     "migrate": "node-pg-migrate",
+    "consumer:export": "node src/consumers/exportPlaylistConsumer.js",
     "lint": "eslint ."
   },
   "keywords": [],
@@ -20,7 +21,9 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "nanoid": "^3.3.11",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "amqplib": "^0.10.4",
+    "nodemailer": "^6.9.16"
   },
   "devDependencies": {
     "eslint": "^8.57.1",

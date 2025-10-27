@@ -180,3 +180,11 @@ Pengelolaan Data Playlist
 Menerapkan Foreign Key
 Menerapkan Data Validation
 Penanganan Eror (Error Handling)
+
+Menerapkan server-side caching pada resource di luar yang sudah ditentukan.
+Memenuhi kriteria opsional yang diberikan pada seluruh submission sebelumnya.
+Menggunakan ESLint dan salah satu style guide di consumer dan producer app agar gaya penulisan kode JavaScript lebih konsisten dan menghindari disable linter yang tidak diperlukan.
+Menuliskan kode dengan bersih:
+Menghapus kode yang redundan (tidak perlu).
+Menghapus impor kode yang tidak digunakan.
+Menghapus berkas yang tidak digunakan.

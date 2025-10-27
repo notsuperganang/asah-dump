@@ -73,4 +73,8 @@ router.get('/playlists/:id/activities', authenticateToken, getPlaylistActivities
 router.post('/collaborations', authenticateToken, addCollaborationHandler);
 router.delete('/collaborations', authenticateToken, deleteCollaborationHandler);
 
+// Exports routes (V3) - Protected, only playlist owner can export
+const { postExportPlaylistHandler } = require('../handlers/exportsHandler');
+router.post('/export/playlists/:id', authenticateToken, postExportPlaylistHandler);
+
 module.exports = router;
