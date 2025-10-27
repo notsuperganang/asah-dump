@@ -1,5 +1,7 @@
 const { nanoid } = require('nanoid');
 const pool = require('../utils/database');
+const NotFoundError = require('../exceptions/NotFoundError');
+const InvariantError = require('../exceptions/InvariantError');
 
 class SongsService {
   async addSong({
@@ -8,13 +10,13 @@ class SongsService {
     const id = `song-${nanoid(16)}`;
     const query = {
       text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id',
-      values: [id, title, year, genre, performer, duration, albumId],
+      values: [id, title, year, performer, genre, duration, albumId],
     };
 
     const result = await pool.query(query);
 
     if (!result.rows[0].id) {
-      throw new Error('Lagu gagal ditambahkan');
+      throw new InvariantError('Lagu gagal ditambahkan');
     }
 
     return result.rows[0].id;
@@ -59,7 +61,7 @@ class SongsService {
     const result = await pool.query(query);
 
     if (!result.rows.length) {
-      throw new Error('Lagu tidak ditemukan');
+      throw new NotFoundError('Lagu tidak ditemukan');
     }
 
     return result.rows[0];
@@ -76,7 +78,7 @@ class SongsService {
     const result = await pool.query(query);
 
     if (!result.rows.length) {
-      throw new Error('Gagal memperbarui lagu. Id tidak ditemukan');
+      throw new NotFoundError('Gagal memperbarui lagu. Id tidak ditemukan');
     }
   }
 
@@ -89,7 +91,20 @@ class SongsService {
     const result = await pool.query(query);
 
     if (!result.rows.length) {
-      throw new Error('Lagu gagal dihapus. Id tidak ditemukan');
+      throw new NotFoundError('Lagu gagal dihapus. Id tidak ditemukan');
+    }
+  }
+
+  async verifySongExists(id) {
+    const query = {
+      text: 'SELECT id FROM songs WHERE id = $1',
+      values: [id],
+    };
+
+    const result = await pool.query(query);
+
+    if (!result.rows.length) {
+      throw new NotFoundError('Lagu tidak ditemukan');
     }
   }
 }

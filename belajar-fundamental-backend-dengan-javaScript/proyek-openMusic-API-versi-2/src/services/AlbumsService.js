@@ -1,5 +1,7 @@
 const { nanoid } = require('nanoid');
 const pool = require('../utils/database');
+const NotFoundError = require('../exceptions/NotFoundError');
+const InvariantError = require('../exceptions/InvariantError');
 
 class AlbumsService {
   async addAlbum({ name, year }) {
@@ -12,7 +14,7 @@ class AlbumsService {
     const result = await pool.query(query);
 
     if (!result.rows[0].id) {
-      throw new Error('Album gagal ditambahkan');
+      throw new InvariantError('Album gagal ditambahkan');
     }
 
     return result.rows[0].id;
@@ -27,7 +29,7 @@ class AlbumsService {
     const result = await pool.query(query);
 
     if (!result.rows.length) {
-      throw new Error('Album tidak ditemukan');
+      throw new NotFoundError('Album tidak ditemukan');
     }
 
     return result.rows[0];
@@ -42,7 +44,7 @@ class AlbumsService {
     const result = await pool.query(query);
 
     if (!result.rows.length) {
-      throw new Error('Gagal memperbarui album. Id tidak ditemukan');
+      throw new NotFoundError('Gagal memperbarui album. Id tidak ditemukan');
     }
   }
 
@@ -55,7 +57,7 @@ class AlbumsService {
     const result = await pool.query(query);
 
     if (!result.rows.length) {
-      throw new Error('Album gagal dihapus. Id tidak ditemukan');
+      throw new NotFoundError('Album gagal dihapus. Id tidak ditemukan');
     }
   }
 
