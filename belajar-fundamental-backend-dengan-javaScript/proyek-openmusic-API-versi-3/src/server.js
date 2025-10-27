@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const routes = require('./routes');
 const ClientError = require('./exceptions/ClientError');
 
@@ -13,6 +14,9 @@ app.use(express.json());
 // Routes
 app.use(routes);
 
+// Serve static uploads
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+
 // Error handling middleware untuk 404
 app.use((req, res) => {
   res.status(404).json({
@@ -24,6 +28,13 @@ app.use((req, res) => {
 // Global error handling middleware
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+  // Handle Multer file size limit as 413
+  if (err && (err.code === 'LIMIT_FILE_SIZE' || err.statusCode === 413)) {
+    return res.status(413).json({
+      status: 'fail',
+      message: 'Ukuran berkas terlalu besar',
+    });
+  }
   if (err instanceof ClientError) {
     return res.status(err.statusCode).json({
       status: 'fail',

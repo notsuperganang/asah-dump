@@ -70,6 +70,18 @@ class AlbumsService {
     const result = await pool.query(query);
     return result.rows;
   }
+
+  async updateAlbumCover(albumId, coverPath) {
+    const query = {
+      text: 'UPDATE albums SET cover_url = $1 WHERE id = $2 RETURNING id',
+      values: [coverPath, albumId],
+    };
+
+    const result = await pool.query(query);
+    if (!result.rows.length) {
+      throw new NotFoundError('Album tidak ditemukan');
+    }
+  }
 }
 
 module.exports = AlbumsService;

@@ -15,4 +15,3 @@ const ExportsValidator = {
 };
 
 module.exports = ExportsValidator;
-

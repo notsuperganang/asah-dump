@@ -178,4 +178,3 @@ exports.down = (pgm) => {
   pgm.dropConstraint('albums', 'albums_name_check', { ifExists: true });
   pgm.dropConstraint('albums', 'albums_year_check', { ifExists: true });
 };
-

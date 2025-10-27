@@ -1,13 +1,18 @@
 const express = require('express');
-const authenticateToken = require('../middlewares/authenticateToken');
 
 // V1 Handlers
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const {
   addAlbumHandler,
   getAlbumByIdHandler,
   editAlbumByIdHandler,
   deleteAlbumByIdHandler,
+  uploadAlbumCoverHandler,
 } = require('../handlers/albumsHandler');
+const authenticateToken = require('../middlewares/authenticateToken');
+const InvariantError = require('../exceptions/InvariantError');
 const {
   addSongHandler,
   getSongsHandler,
@@ -45,6 +50,51 @@ router.get('/albums/:id', getAlbumByIdHandler);
 router.put('/albums/:id', editAlbumByIdHandler);
 router.delete('/albums/:id', deleteAlbumByIdHandler);
 
+// Upload album cover (V3 Criterion 2)
+// Prepare multer storage for local filesystem
+const coverDir = path.join(__dirname, '..', '..', 'uploads', 'covers');
+fs.mkdirSync(coverDir, { recursive: true });
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, coverDir),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
+    const safeExt = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp'].includes(ext) ? ext : '.jpg';
+    cb(null, `album-${req.params.id}-${Date.now()}${safeExt}`);
+  },
+});
+const upload = multer({
+  storage,
+  limits: { fileSize: 512000 }, // 512KB
+  fileFilter: (_req, file, cb) => {
+    if (typeof file.mimetype === 'string' && file.mimetype.startsWith('image/')) {
+      return cb(null, true);
+    }
+    return cb(new InvariantError('Tipe konten yang diunggah harus gambar'));
+  },
+});
+
+// Wrapper to properly handle multer errors
+const uploadWithErrorHandling = (req, res, next) => {
+  const uploadMiddleware = upload.any();
+  uploadMiddleware(req, res, (err) => {
+    if (err) {
+      // Multer errors - handle LIMIT_FILE_SIZE as 413
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        const error = new Error('Ukuran file terlalu besar');
+        error.statusCode = 413;
+        error.code = 'LIMIT_FILE_SIZE';
+        return next(error);
+      }
+      // Other multer errors
+      return next(err);
+    }
+    next();
+  });
+};
+
+// Accept any multipart field and pick 'cover' in handler for robustness
+router.post('/albums/:id/covers', uploadWithErrorHandling, uploadAlbumCoverHandler);
+
 // Songs routes (V1)
 router.post('/songs', addSongHandler);
 router.get('/songs', getSongsHandler);
@@ -75,6 +125,7 @@ router.delete('/collaborations', authenticateToken, deleteCollaborationHandler);
 
 // Exports routes (V3) - Protected, only playlist owner can export
 const { postExportPlaylistHandler } = require('../handlers/exportsHandler');
+
 router.post('/export/playlists/:id', authenticateToken, postExportPlaylistHandler);
 
 module.exports = router;
