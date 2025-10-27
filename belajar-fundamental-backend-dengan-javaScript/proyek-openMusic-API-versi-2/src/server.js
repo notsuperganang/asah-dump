@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const routes = require('./routes');
+const ClientError = require('./exceptions/ClientError');
 
 const app = express();
 const HOST = process.env.HOST || 'localhost';
@@ -23,8 +24,15 @@ app.use((req, res) => {
 // Global error handling middleware
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({
+  if (err instanceof ClientError) {
+    return res.status(err.statusCode).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+
+  console.error(err);
+  return res.status(500).json({
     status: 'error',
     message: 'Terjadi kesalahan pada server',
   });
