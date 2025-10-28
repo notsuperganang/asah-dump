@@ -7,7 +7,6 @@
     "start": "node src/server.js",
     "start-dev": "nodemon src/server.js",
     "migrate": "node-pg-migrate",
-    "consumer:export": "node src/consumers/exportPlaylistConsumer.js",
     "db:reset": "node scripts/clear-db.js",
     "lint": "eslint ."
   },

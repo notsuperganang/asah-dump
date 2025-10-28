@@ -1,9 +1,9 @@
 require('dotenv').config();
 const amqp = require('amqplib');
 const nodemailer = require('nodemailer');
-const CollaborationsService = require('../services/CollaborationsService');
-const PlaylistsService = require('../services/PlaylistsService');
-const PlaylistSongsService = require('../services/PlaylistSongsService');
+const CollaborationsService = require('./services/CollaborationsService');
+const PlaylistsService = require('./services/PlaylistsService');
+const PlaylistSongsService = require('./services/PlaylistSongsService');
 
 async function buildPlaylistJSON(playlistId) {
   const collaborationsService = new CollaborationsService();
@@ -53,6 +53,7 @@ async function start() {
   await channel.assertQueue(queue, { durable: true });
   channel.prefetch(1);
 
+  // eslint-disable-next-line no-console
   console.log('Export consumer started. Waiting for messages...');
   channel.consume(queue, async (msg) => {
     if (!msg) return;
@@ -63,6 +64,7 @@ async function start() {
       await sendEmailJSON(targetEmail, data);
       channel.ack(msg);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('Export consumer error:', err);
       // requeue false to avoid infinite loop; alternatively, DLQ could be used
       channel.nack(msg, false, false);
@@ -73,6 +75,7 @@ async function start() {
 // Start if executed directly
 if (require.main === module) {
   start().catch((e) => {
+    // eslint-disable-next-line no-console
     console.error('Failed to start export consumer:', e);
     process.exit(1);
   });
